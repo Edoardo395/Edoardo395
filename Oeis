@@ -1,0 +1,101 @@
+Permutations with Square-Free Prefix Sums and OEIS Sequence
+A395620
+Abstract
+We study permutations of {1,2,...,n}whose prefix sums avoid perfect squares. This com-
+binatorial constraint defines the OEIS sequence A395620. We provide a formal framework,
+a dynamic programming formulation for exact enumeration, complexity analysis, probabilistic
+heuristics, and several generalizations. We also discuss structural properties and open problems
+related to this class of restricted permutations.
+1 Introduction
+Let Sn denote the symmetric group on nelements. We consider permutations with a global additive
+constraint: no prefix sum is allowed to be a perfect square.
+Such problems belong to the general family of permutation pattern avoidance problems with
+arithmetic constraints. Unlike classical pattern avoidance, the restriction here depends on cumula-
+tive structure rather than local order.
+This construction corresponds to OEIS sequence A395620.
+2 Definition
+Definition 1. Let π= (π1,π2,...,πn) be a permutation of {1,2,...,n}. Define prefix sums:
+Sk =
+k
+i=1
+πi.
+Let An be the set of permutations such that:
+Sk / ∈{m2 : m∈N}, ∀k∈{1,...,n}.
+We define:
+a(n) = |An|.
+This sequence (a(n))n≥1 is OEIS A395620.
+3 First values
+The initial values of a(n) can be computed via exhaustive or DP-based enumeration for small n.
+These values are listed in OEIS A395620.
+1
+4 Combinatorial reformulation
+We interpret the problem as a constrained path in a layered state space.
+Each state corresponds to:
+• a subset U ⊆{1,...,n}of used elements,
+• a current sum s= i∈U i,
+with transitions:
+(U,s) →(U ∪{x},s+ x)
+for x / ∈U, provided s+ x is not a perfect square.
+Thus, valid permutations correspond to Hamiltonian paths in a directed acyclic state graph.
+5 Dynamic programming algorithm
+We define a DP over subsets:
+DP[mask][s] = number of ways to reach state (mask,s).
+Where: - mask encodes used elements, - s is the current prefix sum.
+Transition:
+DP[mask∪{x}][s+ x]+ = DP[mask][s]
+if s+ x is not a perfect square.
+5.1 Complexity
+The naive complexity is:
+O(n!).
+The DP formulation reduces this to approximately:
+O(2n
+·n·S),
+where S=
+n(n+1)
+2 is the maximum possible sum.
+Pruning invalid square states significantly reduces the effective state space in practice.
+6 Heuristic probabilistic model
+We consider a random permutation π∈Sn. The prefix sum Sk is approximately distributed around:
+E[Sk] = k(n+ 1)
+2.
+The density of perfect squares near x is approximately:
+1
+∼
+2√x
+.
+Thus, the probability that a random prefix sum hits a square is small for large x, suggesting
+that:
+a(n) ≈n!·exp(−c√n)
+for some constant c>0 (heuristic).
+This suggests that although constraints are global, most permutations survive early stages, and
+failures concentrate at small prefix lengths.
+2
+7 Generalizations
+We define several natural extensions:
+7.1 Avoiding higher powers
+Replace squares with k-th powers:
+Sk / ∈{md : m∈N}.
+7.2 Arbitrary forbidden sets
+Let F ⊂N. Define:
+Sk / ∈F.
+7.3 Modulo constraints
+Require:
+Sk ̸≡r (mod m).
+7.4 Graph formulation
+Let vertices represent partial sums; edges correspond to valid extensions. Then a(n) counts Hamil-
+tonian paths in a filtered state graph.
+8 Open problems
+We highlight several open directions:
+• Does a(n) admit a closed form or recurrence?
+• What is the precise asymptotic growth rate of a(n)?
+• Is the sequence log-concave or unimodal in any transformed sense?
+• Can one characterize forbidden-prefix structures combinatorially?
+• Is there a bijection to known permutation-avoidance classes?
+9 Conclusion
+We introduced and studied permutations with square-free prefix sums, corresponding to OEIS
+A395620. While exact enumeration is computationally expensive, the problem exhibits rich combi-
+natorial structure and connects naturally to constrained path counting and additive combinatorics.
+Further work includes asymptotic analysis and structural characterization of valid permutations.
+References
+[1] OEIS Foundation Inc. The On-Line Encyclopedia of Integer Sequences, A395620.
+[2] R. P. Stanley, Enumerative Combinatorics, Vol. 1.
